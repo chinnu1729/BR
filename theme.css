@@ -1,0 +1,71 @@
+/* Update this file to retheme the surprise without editing app.py. */
+:root {
+    --plum: #321d48;
+    --deep-plum: #20122f;
+    --peach: #ffb486;
+    --coral: #ed6f86;
+    --lilac: #c5a8e8;
+    --cream: #fff0db;
+    --memory-card-start: #ffd9bf;
+    --memory-card-end: #e8b5ce;
+}
+
+body {
+    background: var(--deep-plum);
+}
+
+.title,
+.final-title {
+    color: var(--cream);
+}
+
+button {
+    background: linear-gradient(145deg, var(--peach), var(--coral));
+}
+
+.card {
+    background: linear-gradient(145deg, var(--memory-card-start), var(--memory-card-end));
+}
+
+/* Keep the couple artwork away from the photo memories. */
+#page4::after {
+    display: none;
+}
+
+/* The final birthday message uses the MP4 as its only page background. */
+#page2,
+#page3,
+#page4,
+#page5,
+#page6 {
+    background: transparent;
+}
+
+#page2::after,
+#page3::after,
+#page4::after,
+#page5::after,
+#page6::after {
+    display: none;
+}
+
+#page2 .page-video,
+#page3 .page-video,
+#page4 .page-video,
+#page5 .page-video,
+#page6 .page-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+#page2 .content,
+#page3 .content,
+#page4 .content,
+#page5 .content,
+#page6 .content {
+    z-index: 5;
+}
