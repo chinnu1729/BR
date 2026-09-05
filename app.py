@@ -1,6 +1,5 @@
 import streamlit as st
 import streamlit.components.v1 as components
-import base64
 from pathlib import Path
 
 st.set_page_config(
@@ -24,29 +23,29 @@ ASSETS_DIR = next(
     BASE_DIR / "assests",
 )
 THEME_CSS = (BASE_DIR / "theme.css").read_text(encoding="utf-8")
+ASSET_BASE_URL = "https://raw.githubusercontent.com/chinnu1729/BR/main/assests"
 
 
-def get_file_data(filename):
+def get_asset_url(filename):
     path = ASSETS_DIR / filename
 
     if not path.is_file():
         return ""
 
-    with path.open("rb") as f:
-        return base64.b64encode(f.read()).decode("utf-8")
+    return f"{ASSET_BASE_URL}/{filename}"
 
 
-photo1 = get_file_data("photo1.jpeg")
-photo2 = get_file_data("photo2.jpeg")
-photo3 = get_file_data("photo3.jpeg")
-song = get_file_data("song.mp3")
-couple_image = get_file_data("original-9b40aa4942f5c0336b8132f60e348015.webp")
-final_video = get_file_data("large-thumbnail20251111-2516313-k43kam.mp4")
-page2_video = get_file_data("2.mp4")
-page3_video = get_file_data("3.mp4")
-page4_video = get_file_data("5.mp4")
-page5_video = get_file_data("4.mp4")
-page_before_last_video = get_file_data("05.mp4")
+photo1 = get_asset_url("photo1.jpeg")
+photo2 = get_asset_url("photo2.jpeg")
+photo3 = get_asset_url("photo3.jpeg")
+song = get_asset_url("song.mp3")
+couple_image = get_asset_url("original-9b40aa4942f5c0336b8132f60e348015.webp")
+final_video = get_asset_url("large-thumbnail20251111-2516313-k43kam.mp4")
+page2_video = get_asset_url("2.mp4")
+page3_video = get_asset_url("3.mp4")
+page4_video = get_asset_url("5.mp4")
+page5_video = get_asset_url("4.mp4")
+page_before_last_video = get_asset_url("05.mp4")
 
 
 missing_photos = [
@@ -141,7 +140,7 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background-image: url("data:image/webp;base64,__COUPLE_IMAGE__");
+    background-image: url("__COUPLE_IMAGE__");
     background-repeat: no-repeat;
     background-position: right 7% bottom 4%;
     background-size: min(500px, 48vw) auto;
@@ -152,7 +151,7 @@ body {
 }
 
 #page1 {
-    background: url("data:image/webp;base64,__COUPLE_IMAGE__") center / cover no-repeat;
+    background: url("__COUPLE_IMAGE__") center / cover no-repeat;
 }
 
 #page1::after {
@@ -246,7 +245,7 @@ button:active {
 
 /* PAGE 1 */
 #page1 {
-    background: url("data:image/webp;base64,__COUPLE_IMAGE__") center / cover no-repeat;
+    background: url("__COUPLE_IMAGE__") center / cover no-repeat;
 }
 
 .heart {
@@ -504,7 +503,7 @@ __THEME_CSS__
 <!-- PAGE 2 -->
 <div class="page" id="page2">
     <video class="page-video" autoplay muted loop playsinline>
-        <source src="data:video/mp4;base64,__PAGE2_VIDEO__" type="video/mp4">
+        <source src="__PAGE2_VIDEO__" type="video/mp4">
     </video>
     <div class="content">
         <div class="eyebrow">it's your special day 🎂</div>
@@ -520,7 +519,7 @@ __THEME_CSS__
 <!-- PAGE 3 -->
 <div class="page" id="page3">
     <video class="page-video" autoplay muted loop playsinline>
-        <source src="data:video/mp4;base64,__PAGE3_VIDEO__" type="video/mp4">
+        <source src="__PAGE3_VIDEO__" type="video/mp4">
     </video>
     <div class="content">
         <div class="eyebrow">a few little things 🎈</div>
@@ -544,7 +543,7 @@ __THEME_CSS__
 <!-- PAGE 4 -->
 <div class="page" id="page4">
     <video class="page-video" autoplay muted loop playsinline>
-        <source src="data:video/mp4;base64,__FINAL_VIDEO__" type="video/mp4">
+        <source src="__FINAL_VIDEO__" type="video/mp4">
     </video>
     <div class="content">
         <div class="eyebrow">a walk down memory lane ✨</div>
@@ -576,7 +575,7 @@ __THEME_CSS__
 <!-- PAGE 5 -->
 <div class="page" id="page5">
     <video class="page-video" autoplay muted loop playsinline>
-        <source src="data:video/mp4;base64,__PAGE_BEFORE_LAST_VIDEO__" type="video/mp4">
+        <source src="__PAGE_BEFORE_LAST_VIDEO__" type="video/mp4">
     </video>
     <div class="content">
         <div class="eyebrow">one last thing...</div>
@@ -614,7 +613,7 @@ __THEME_CSS__
 <!-- PAGE 6 -->
 <div class="page" id="page6">
     <video class="page-video" autoplay muted loop playsinline>
-        <source src="data:video/mp4;base64,__PAGE5_VIDEO__" type="video/mp4">
+        <source src="__PAGE5_VIDEO__" type="video/mp4">
     </video>
     <div class="content">
         <div class="final-heart">❤️</div>
@@ -629,7 +628,7 @@ __THEME_CSS__
 </div>
 
 <audio id="music" loop>
-    <source src="data:audio/mpeg;base64,__SONG__" type="audio/mpeg">
+    <source src="__SONG__" type="audio/mpeg">
 </audio>
 
 <script>
@@ -776,13 +775,7 @@ createStars();
 def make_image_tag(data, alt):
 
     if data:
-        return (
-            '<img src="data:image/jpeg;base64,'
-            + data
-            + '" alt="'
-            + alt
-            + '">'
-        )
+        return f'<img src="{data}" alt="{alt}">'
 
     return '<div class="missing">Photo not found 💔</div>'
 
