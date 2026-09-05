@@ -13,9 +13,16 @@ st.set_page_config(
 # LOAD FILES FROM assets FOLDER
 # -----------------------------
 BASE_DIR = Path(__file__).resolve().parent
-ASSETS_DIR = BASE_DIR / "assests"
-if not ASSETS_DIR.is_dir():
-    ASSETS_DIR = BASE_DIR / "assets"
+ASSET_DIR_CANDIDATES = (
+    BASE_DIR / "assests",
+    BASE_DIR / "assets",
+    Path.cwd() / "assests",
+    Path.cwd() / "assets",
+)
+ASSETS_DIR = next(
+    (directory for directory in ASSET_DIR_CANDIDATES if directory.is_dir()),
+    BASE_DIR / "assests",
+)
 THEME_CSS = (BASE_DIR / "theme.css").read_text(encoding="utf-8")
 
 
@@ -42,10 +49,21 @@ page5_video = get_file_data("4.mp4")
 page_before_last_video = get_file_data("05.mp4")
 
 
-if not photo1 or not photo2 or not photo3:
+missing_photos = [
+    filename
+    for filename, data in {
+        "photo1.jpeg": photo1,
+        "photo2.jpeg": photo2,
+        "photo3.jpeg": photo3,
+    }.items()
+    if not data
+]
+
+if missing_photos:
     st.warning(
-        "One or more photos are missing. Put photo1.jpeg, photo2.jpeg and "
-        "photo3.jpeg inside the assets folder."
+        "Missing photos: "
+        + ", ".join(missing_photos)
+        + f". Resolved asset folder: {ASSETS_DIR}"
     )
 
 
